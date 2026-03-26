@@ -14,13 +14,10 @@ export default {
   data() {
     return {
       showDetails: false,
-      friend: {
-        id: "alvaro",
-        name: "Alvaro Felipe",
-        phone: "233 423 234",
-        email: "alvaro@local.com",
-      },
     };
+  },
+  props: {
+    friend: Object,
   },
   methods: {
     toogleDetails() {

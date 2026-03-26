@@ -4,7 +4,7 @@
       <h1>Friends list</h1>
     </header>
     <ul>
-      <FriendContact></FriendContact>
+      <FriendContact v-for="friend in friends" :key="friend.id" :friend="friend"></FriendContact>
     </ul>
   </section>
 </template>
