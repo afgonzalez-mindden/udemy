@@ -3,18 +3,26 @@
     <header>
       <h1>Friends list</h1>
     </header>
+    <NewFriend @save-new-friend="saveNewFriend" ></NewFriend>
     <ul>
-      <FriendContact v-for="friend in friends" :key="friend.id" :friend="friend"></FriendContact>
+      <FriendContact
+        v-for="friend in friends"
+        :key="friend.id"
+        v-bind="friend"
+        @toggle-favorite="toogleFavoriteStatus"
+        @delete-friend="deleteFriend"
+      ></FriendContact>
     </ul>
   </section>
 </template>
 
 <script>
 import FriendContact from "./components/FriendContact.vue";
+import NewFriend from "./components/NewFriend.vue"
 
 export default {
   components: {
-    FriendContact,
+    FriendContact, NewFriend
   },
   data() {
     return {
@@ -24,15 +32,46 @@ export default {
           name: "Alvaro Felipe",
           phone: "233 423 234",
           email: "alvaro@local.com",
+          favorite: true,
         },
         {
           id: "jose",
           name: "Jose Pérez",
           phone: "231 877 565",
           email: "jose@local.com",
+          favorite: false,
         },
       ],
     };
+  },
+  methods: {
+    toogleFavoriteStatus(id) {
+      const friend = this.friends.find((friend) => friend.id === id);
+      friend.favorite = !friend.favorite;
+    },
+    saveNewFriend(newFriend){
+      const friendToAdd = {
+        id: newFriend.id,
+        name: newFriend.name,
+        phone: newFriend.phone,
+        email: newFriend.email,
+        favorite: newFriend.favorite
+      }
+
+      this.friends.push(friendToAdd)
+
+      console.log(friendToAdd)
+      console.log(this.friends.length)
+    },
+    deleteFriend(id){
+      console.log('works')
+      const index = this.friends.findIndex((friend) => friend.id === id )
+      console.log(index)
+      this.friends.splice(index, 1)
+
+      // Filter. Devuelve el array solo con los que cumplen la condición
+      this.friends = this.friends.filter()
+    }
   },
 };
 </script>
@@ -119,5 +158,19 @@ header {
   background-color: #ec3169;
   border-color: #ec3169;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+
+#app input {
+  font: inherit;
+  padding: 0.15rem;
+}
+#app label {
+  font-weight: bold;
+  margin-right: 1rem;
+  width: 7rem;
+  display: inline-block;
+}
+#app form div {
+  margin: 1rem 0;
 }
 </style>
